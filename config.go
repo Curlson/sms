@@ -26,8 +26,8 @@ func NewDefaultConf() *Conf {
 		ErrorLog:    "./tmp/log/sms.log",
 		Gateways: map[string]Gateway{
 			"mock":    NewMock("mock", "mock"),
-			"huyi":    NewHuyi("cf_koodpower", "869c0f09b3f6348b787aadef8f2a0538"),
-			"meilian": NewMeiLian("kdkjgs", "1ADBB3178591FD5BB0C248518F39BF6D", "ec03f995f3778a69ea861bfafdd5e0f6"),
+			"huyi":    NewHuyi("cf_koodpower", "869c0f09b3f6348b7xxxxxxxxxxxxxx"),
+			"meilian": NewMeiLian("kdkjgs", "1ADBB3178591FD5BB0C2xxxxxxxxxxx", "ec03f995f3778a69exxxxxxxxxxxx"),
 			// "yunpian": {"api_key": "824f0ff2f71cab52936axxxxxxxxxx"},
 			// "aliyun": {
 			// 	"access_key_id":     "",
