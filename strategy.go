@@ -1,11 +1,14 @@
 package sms
 
-type Strategy func([]Gateway) []Gateway
+import mapset "github.com/deckarep/golang-set/v2"
 
-func Order(gties []Gateway) []Gateway {
+type Strategy func([]string) []string
+
+func Order(gties []string) []string {
 	return gties
 }
 
-func Random([]Gateway) []Gateway {
-	return nil
+func Random(gties []string) []string {
+	sset := mapset.NewSet(gties...)
+	return sset.ToSlice()
 }

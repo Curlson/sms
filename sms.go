@@ -26,14 +26,8 @@ func (s *Sms) Send(mobile string, msg Msg, gtys map[string]KV) ([]Response, erro
 	//    如果没有指定 gtys 则使用 config 内配置的默认网关内选择
 	if avGties, err = s.gateway(gtys); err == nil {
 		// 实例化对应的网关
-		var senders []Gateway
-		for _, v := range avGties {
-			if s.Conf.Gateways[v] != nil {
-				senders = append(senders, s.Conf.Gateways[v])
-			}
-		}
 		// 获取策略，发送短信
-		disGties = s.dispatch(senders...)
+		disGties = s.dispatch(avGties...)
 		return send(disGties, msg, mobile, gtys)
 	}
 	return nil, err
@@ -102,7 +96,14 @@ func (s *Sms) gateway(specificGty map[string]KV) ([]string, error) {
 	}
 }
 
-func (s *Sms) dispatch(gatewaies ...Gateway) []Gateway {
+func (s *Sms) dispatch(gatewaies ...string) (gties []Gateway) {
+	gties = make([]Gateway, 0)
 	fn := s.Conf.DefStrategy
-	return fn(gatewaies)
+	_gties := fn(gatewaies)
+	for _, v := range _gties {
+		if gty, ok := s.Conf.Gateways[v]; ok {
+			gties = append(gties, gty)
+		}
+	}
+	return gties
 }

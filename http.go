@@ -1,7 +1,6 @@
 package sms
 
 import (
-	"fmt"
 	"io"
 	"net/http"
 	urlStd "net/url"
@@ -50,8 +49,6 @@ func Get(url *urlStd.URL, query urlStd.Values, header ...http.Header) (data []by
 	// query 参数设置
 	url.RawQuery = query.Encode()
 	// 配置请求
-	fmt.Println("------", url.String())
-
 	request, _err := http.NewRequest(
 		http.MethodGet,
 		url.String(),

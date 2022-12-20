@@ -1,7 +1,6 @@
 package sms
 
 import (
-	"fmt"
 	"net/http"
 	urlStd "net/url"
 	"strings"
@@ -42,7 +41,6 @@ error:Throughput Rate Exceeded  发送频率受限
 error:Invalid md5 password length  MD5 密码长度非 32 位
 */
 func (ml *MeiLian) Send(mobile string, msg Msg) (*Response, error) {
-	fmt.Println(mobile, msg)
 	b, err := ml.send(mobile, msg.Content())
 	if err != nil {
 		return nil, err
