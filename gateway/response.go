@@ -1,4 +1,4 @@
-package sms
+package gateway
 
 type Response struct {
 	Ok   bool   `json:"ok"`

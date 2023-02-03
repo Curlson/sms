@@ -1,9 +1,11 @@
-package sms
+package gateway
 
 import (
 	"net/http"
 	urlStd "net/url"
 	"strings"
+
+	"kd-saas/common/sms/utils"
 )
 
 type MeiLian struct {
@@ -84,6 +86,5 @@ func (ml *MeiLian) send(mobile, content string) ([]byte, error) {
 		queryValues = ml.QueryValues(mobile, content)
 		header      = ml.header()
 	)
-
-	return Get(url, queryValues, header)
+	return utils.Get(url, queryValues, header)
 }

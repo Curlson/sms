@@ -1,4 +1,4 @@
-package sms
+package utils
 
 type KV map[string]string
 

@@ -1,4 +1,4 @@
-package sms
+package utils
 
 import (
 	"crypto/md5"

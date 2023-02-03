@@ -1,4 +1,4 @@
-package sms
+package utils
 
 import (
 	"io"

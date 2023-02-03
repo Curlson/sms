@@ -3,6 +3,9 @@ package sms
 import (
 	"fmt"
 
+	"kd-saas/common/sms/gateway"
+	"kd-saas/common/sms/utils"
+
 	mapset "github.com/deckarep/golang-set/v2"
 )
 
@@ -16,10 +19,10 @@ func NewSms(conf *Conf) *Sms {
 	}
 }
 
-func (s *Sms) Send(mobile string, msg Msg, gtys map[string]KV) ([]Response, error) {
+func (s *Sms) Send(mobile string, msg gateway.Msg, gtys map[string]utils.KV) ([]gateway.Response, error) {
 	var (
-		avGties  []string  // 可用的网关: 还未进行 dispatch
-		disGties []Gateway // 调度后的策略
+		avGties  []string          // 可用的网关: 还未进行 dispatch
+		disGties []gateway.Gateway // 调度后的策略
 		err      error
 	)
 	// 1. 如果自定义了 gtys 则使用指定的 gtys 内的策略
@@ -33,9 +36,9 @@ func (s *Sms) Send(mobile string, msg Msg, gtys map[string]KV) ([]Response, erro
 	return nil, err
 }
 
-func send(senders []Gateway, msg Msg, mobile string, gtys map[string]KV) (result []Response, err error) {
+func send(senders []gateway.Gateway, msg gateway.Msg, mobile string, gtys map[string]utils.KV) (result []gateway.Response, err error) {
 	var success bool
-	result = make([]Response, 0)
+	result = make([]gateway.Response, 0)
 	for _, sender := range senders {
 		if _msgMap, ex := gtys[sender.GetName()]; ex && _msgMap != nil {
 			// 初始化
@@ -66,7 +69,7 @@ func Result(gty string, res string, status string) map[string]any {
 }
 
 // 获取所有可用的 gatewaies
-func (s *Sms) gateway(specificGty map[string]KV) ([]string, error) {
+func (s *Sms) gateway(specificGty map[string]utils.KV) ([]string, error) {
 	// 所有的网关
 	available := s.Conf.Gateways
 	if len(available) == 0 {
@@ -96,8 +99,8 @@ func (s *Sms) gateway(specificGty map[string]KV) ([]string, error) {
 	}
 }
 
-func (s *Sms) dispatch(gatewaies ...string) (gties []Gateway) {
-	gties = make([]Gateway, 0)
+func (s *Sms) dispatch(gatewaies ...string) (gties []gateway.Gateway) {
+	gties = make([]gateway.Gateway, 0)
 	fn := s.Conf.DefStrategy
 	_gties := fn(gatewaies)
 	for _, v := range _gties {
@@ -107,3 +110,5 @@ func (s *Sms) dispatch(gatewaies ...string) (gties []Gateway) {
 	}
 	return gties
 }
+
+type Dictionay[K comparable, V any] map[K]V

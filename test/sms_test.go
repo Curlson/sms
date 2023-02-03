@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/Curlson/sms"
+	"kd-saas/common/sms"
+	"kd-saas/common/sms/utils"
 )
 
 func TestSms(t *testing.T) {
@@ -16,7 +17,7 @@ func TestSms(t *testing.T) {
 	// 通过自定义模板编号发送信息
 	// 自定义模板消息内包含各个渠道的消息信息
 	// 根据具体的渠道获取对应的模板
-	msg := sms.NewMessage("您的验证码是 3379", sms.KV{"code": "3379"})
+	msg := sms.NewMessage("您的验证码是 3379", utils.KV{"code": "3379"})
 	// 可以指定 gateway用以覆盖配置内的 gateway
 	// var a = []string{"huyi", "alibaba"}
 	//
@@ -24,7 +25,7 @@ func TestSms(t *testing.T) {
 	// 	"huyi": []string{"1001", "验证码%s"},
 	// }
 	//
-	res, _ := sender.Send("18556368687", msg, map[string]sms.KV{
+	res, _ := sender.Send("18556368687", msg, map[string]utils.KV{
 		"mock": {"tpl": "1001"},
 		// "huyi": {"content": "您的验证码是：6789。请不要把验证码泄露给其他人。"},
 	})
@@ -44,9 +45,10 @@ func TestSmsWithSpecifyGateWay(t *testing.T) {
 	// 通过自定义模板编号发送信息
 	// 自定义模板消息内包含各个渠道的消息信息
 	// 根据具体的渠道获取对应的模板
-	msg := sms.NewMessage("您的验证码是 3379", sms.KV{"code": "3379"})
+	msg := sms.NewMessage("您的验证码是 3379", utils.KV{"code": "3379"})
 	// 可以指定 gateway用以覆盖配置内的 gateway
 	// var a = []string{"huyi", "alibaba"}
 	//
-	sender.Send("18556368687", msg, nil)
+	res, err := sender.Send("18556368687", msg, nil)
+	fmt.Println(res, err)
 }

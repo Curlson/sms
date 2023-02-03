@@ -1,20 +1,19 @@
 package sms
 
+import (
+	"kd-saas/common/sms/gateway"
+	"kd-saas/common/sms/utils"
+)
+
 // 消息体的结构
-type Msg interface {
-	Content() string
-	Args() []any
-	ArgsMap() KV
-	TplCode() string
-}
 
 type Message struct {
 	Msg  string
-	Data KV
+	Data utils.KV
 	Code string
 }
 
-func NewMessage(content string, data KV, code ...string) Msg {
+func NewMessage(content string, data utils.KV, code ...string) gateway.Msg {
 	var tplCode string
 	if len(code) > 0 {
 		tplCode = code[0]
@@ -35,8 +34,7 @@ func (m *Message) Args() []any {
 	return values
 }
 
-//
-func (m *Message) ArgsMap() KV {
+func (m *Message) ArgsMap() utils.KV {
 	return m.Data
 }
 

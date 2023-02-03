@@ -1,4 +1,4 @@
-package sms
+package gateway
 
 type Mock struct {
 	AppId  string

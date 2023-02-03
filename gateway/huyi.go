@@ -1,4 +1,4 @@
-package sms
+package gateway
 
 import (
 	"encoding/json"
@@ -9,6 +9,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"kd-saas/common/sms/utils"
 )
 
 type Huyi struct {
@@ -63,7 +65,7 @@ func (h *Huyi) send(mobile string, content string) ([]byte, error) {
 		header http.Header = h.header()
 		body   io.Reader   = h.body(mobile, content)
 	)
-	return Post(url, body, header)
+	return utils.Post(url, body, header)
 }
 
 func (h *Huyi) header() (header http.Header) {
@@ -76,7 +78,7 @@ func (h *Huyi) body(_mobile, _content string) (body *strings.Reader) {
 	v := url.Values{}
 	_now := strconv.FormatInt(time.Now().Unix(), 10)
 	v.Set("account", h.ApiId)
-	v.Set("password", GetMd5String([]byte(h.ApiId+h.ApiKey+_mobile+_content+_now)))
+	v.Set("password", utils.GetMd5String([]byte(h.ApiId+h.ApiKey+_mobile+_content+_now)))
 	v.Set("mobile", _mobile)
 	v.Set("content", _content)
 	v.Set("time", _now)
